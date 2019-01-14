@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
   before_create :create_activation_digest
@@ -39,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def send_activation_email
-    userMailer.account_activation(self).deliver_now
+    UserMailer.account_activation(self).deliver_now
   end
 
   def create_reset_digest
